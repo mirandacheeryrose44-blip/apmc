@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cheery's Bags Shop</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffd6e7;
+            color: #4a1830;
+            line-height: 1.6;
+        }
+
+        /* Login */
+        #login {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffb6d5, #ffe1ed);
+        }
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(120, 20, 70, .2);
+            text-align: center;
+        }
+        .logo { font-size: 32px; font-weight: bold; color: #d63384; margin-bottom: 8px; }
+        .login-box p { color: #777; margin-bottom: 25px; }
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 14px;
+            border: 1px solid #f0a8c6;
+            border-radius: 10px;
+            outline: none;
+        }
+        input:focus, textarea:focus { border-color: #d63384; }
+        button {
+            border: none;
+            background: #d63384;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #b82b70; }
+
+        /* Website */
+        #website { display: none; }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #fff;
+            box-shadow: 0 3px 15px rgba(80, 10, 40, .12);
+        }
+        nav {
+            max-width: 1200px;
+            margin: auto;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+        nav .brand { font-size: 25px; font-weight: bold; color: #d63384; }
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        nav a, .logout {
+            text-decoration: none;
+            color: #6e2348;
+            padding: 8px 12px;
+            border-radius: 18px;
+            cursor: pointer;
+        }
+        nav a:hover, .logout:hover { background: #ffe0ed; color: #d63384; }
+
+        section {
+            max-width: 1200px;
+            margin: auto;
+            padding: 75px 25px;
+        }
+        .hero {
+            min-height: 75vh;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 35px;
+        }
+        .hero-text { flex: 1; }
+        .hero h1 { font-size: clamp(38px, 6vw, 70px); color: #b82b70; line-height: 1.1; }
+        .hero p { margin: 20px 0; font-size: 18px; max-width: 600px; }
+        .hero-card {
+            flex: 1;
+            max-width: 450px;
+            min-height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #fff;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(100, 20, 60, .15);
+            font-size: 120px;
+        }
+        .title {
+            text-align: center;
+            color: #b82b70;
+            font-size: 38px;
+            margin-bottom: 10px;
+        }
+        .subtitle { text-align: center; margin-bottom: 35px; }
+
+        .about-box, .contact-box {
+            background: #fff;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(100, 20, 60, .1);
+        }
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 22px;
+        }
+        .product {
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(100, 20, 60, .12);
+            text-align: center;
+            padding-bottom: 20px;
+        }
+        .bag-img {
+            height: 190px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffe6f0;
+            font-size: 90px;
+        }
+        .product h3 { margin: 15px 10px 5px; }
+        .price { color: #d63384; font-weight: bold; margin-bottom: 12px; }
+
+        .films {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+        .film {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(100, 20, 60, .1);
+        }
+        .film h3 { color: #d63384; margin-bottom: 8px; }
+
+        .contact-form { max-width: 650px; margin: auto; }
+        footer {
+            text-align: center;
+            background: #b82b70;
+            color: white;
+            padding: 25px;
+        }
+
+        @media (max-width: 750px) {
+            nav { flex-direction: column; }
+            .hero { flex-direction: column; text-align: center; padding-top: 50px; }
+            .hero-card { width: 100%; min-height: 250px; }
+            nav ul { gap: 3px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN FORM -->
+<div id="login">
+    <div class="login-box">
+        <div class="logo">👜 Cheery's Bags</div>
+        <p>Welcome to our pink bag shop!</p>
+
+        <form onsubmit="login(event)">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+
+        <p style="margin-top:15px; font-size:13px;">
+            Demo login: enter any username and password.
+        </p>
+    </div>
+</div>
+
+<!-- MAIN WEBSITE -->
+<div id="website">
+    <header>
+        <nav>
+            <div class="brand">👜 Cheery's Bags</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#products">Products</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a href="#films">Films</a></li>
+                <li><a class="logout" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HOME -->
+    <section id="home" class="hero">
+        <div class="hero-text">
+            <h1>Carry Your Style.</h1>
+            <p>
+                Welcome to <b>Cheery's Bags</b>, your cute and stylish online
+                destination for bags. Find a bag that matches your personality,
+                outfit, and everyday needs.
+            </p>
+            <a href="#products"><button>Shop Now</button></a>
+        </div>
+        <div class="hero-card">👜</div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2 class="title">About Us</h2>
+        <p class="subtitle">Simple, stylish, and made for every occasion.</p>
+        <div class="about-box">
+            <p>
+                <b>Cheery's Bags</b> is a simple online bag shop created for people
+                who love fashionable, useful, and affordable bags. We offer different
+                styles for school, casual days, travel, and special occasions.
+            </p>
+            <br>
+            <p>
+                Our goal is to make it easy for customers to discover a bag they love
+                while enjoying a friendly and beautiful shopping experience.
+            </p>
+        </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products">
+        <h2 class="title">Our Products</h2>
+        <p class="subtitle">Choose your favorite bag.</p>
+
+        <div class="products">
+            <div class="product">
+                <div class="bag-img">👜</div>
+                <h3>Classic Handbag</h3>
+                <p class="price">₱799</p>
+                <button onclick="addToCart('Classic Handbag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🎒</div>
+                <h3>School Backpack</h3>
+                <p class="price">₱999</p>
+                <button onclick="addToCart('School Backpack')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👝</div>
+                <h3>Mini Shoulder Bag</h3>
+                <p class="price">₱599</p>
+                <button onclick="addToCart('Mini Shoulder Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🛍️</div>
+                <h3>Tote Bag</h3>
+                <p class="price">₱499</p>
+                <button onclick="addToCart('Tote Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">💼</div>
+                <h3>Office Handbag</h3>
+                <p class="price">₱899</p>
+                <button onclick="addToCart('Office Handbag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🎀</div>
+                <h3>Pink Bow Bag</h3>
+                <p class="price">₱699</p>
+                <button onclick="addToCart('Pink Bow Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👜</div>
+                <h3>Elegant Shoulder Bag</h3>
+                <p class="price">₱849</p>
+                <button onclick="addToCart('Elegant Shoulder Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🎒</div>
+                <h3>Travel Backpack</h3>
+                <p class="price">₱1,199</p>
+                <button onclick="addToCart('Travel Backpack')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👛</div>
+                <h3>Cute Purse</h3>
+                <p class="price">₱399</p>
+                <button onclick="addToCart('Cute Purse')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🧳</div>
+                <h3>Travel Bag</h3>
+                <p class="price">₱1,299</p>
+                <button onclick="addToCart('Travel Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">💗</div>
+                <h3>Heart Mini Bag</h3>
+                <p class="price">₱549</p>
+                <button onclick="addToCart('Heart Mini Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👜</div>
+                <h3>Fashion Crossbody</h3>
+                <p class="price">₱749</p>
+                <button onclick="addToCart('Fashion Crossbody')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🎒</div>
+                <h3>College Backpack</h3>
+                <p class="price">₱1,099</p>
+                <button onclick="addToCart('College Backpack')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🛍️</div>
+                <h3>Canvas Tote</h3>
+                <p class="price">₱449</p>
+                <button onclick="addToCart('Canvas Tote')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👝</div>
+                <h3>Party Clutch</h3>
+                <p class="price">₱649</p>
+                <button onclick="addToCart('Party Clutch')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">💼</div>
+                <h3>Laptop Bag</h3>
+                <p class="price">₱1,099</p>
+                <button onclick="addToCart('Laptop Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🎀</div>
+                <h3>Ribbon Shoulder Bag</h3>
+                <p class="price">₱729</p>
+                <button onclick="addToCart('Ribbon Shoulder Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👜</div>
+                <h3>Luxury Style Bag</h3>
+                <p class="price">₱1,499</p>
+                <button onclick="addToCart('Luxury Style Bag')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">🎒</div>
+                <h3>Casual Daypack</h3>
+                <p class="price">₱899</p>
+                <button onclick="addToCart('Casual Daypack')">Add to Cart</button>
+            </div>
+            <div class="product">
+                <div class="bag-img">👛</div>
+                <h3>Small Wallet Bag</h3>
+                <p class="price">₱499</p>
+                <button onclick="addToCart('Small Wallet Bag')">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+        <h2 class="title">Contact Us</h2>
+        <p class="subtitle">We would love to hear from you!</p>
+
+        <div class="contact-box contact-form">
+            <form onsubmit="sendMessage(event)">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea rows="6" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FILMS -->
+    <section id="films">
+        <h2 class="title">Films</h2>
+        <p class="subtitle">Our bag-inspired featured films.</p>
+
+        <div class="films">
+            <div class="film">
+                <h3>👜 The Perfect Bag</h3>
+                <p>A short fashion story about finding a bag that fits your personal style.</p>
+            </div>
+            <div class="film">
+                <h3>🎒 Everyday Adventures</h3>
+                <p>A fun story about a backpack that travels through everyday adventures.</p>
+            </div>
+            <div class="film">
+                <h3>💗 Pink Fashion</h3>
+                <p>A colorful fashion feature celebrating pink, confidence, and creativity.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Cheery's Bags Shop | All Rights Reserved</p>
+    </footer>
+</div>
+
+<script>
+    function login(event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        if (username.trim() !== "" && password.trim() !== "") {
+            document.getElementById("login").style.display = "none";
+            document.getElementById("website").style.display = "block";
+            window.scrollTo(0, 0);
+        }
+    }
+
+    function logout() {
+        document.getElementById("website").style.display = "none";
+        document.getElementById("login").style.display = "flex";
+        document.getElementById("username").value = "";
+        document.getElementById("password").value = "";
+        window.scrollTo(0, 0);
+    }
+
+    function addToCart(product) {
+        alert(product + " has been added to your cart!");
+    }
+
+    function sendMessage(event) {
+        event.preventDefault();
+        alert("Thank you! Your message has been sent.");
+        event.target.reset();
+    }
+</script>
+
+</body>
+</html>
